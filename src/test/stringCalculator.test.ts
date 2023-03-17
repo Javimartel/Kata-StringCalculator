@@ -9,4 +9,8 @@ describe('stringCalculator Tests', () => {
         expect(add('1')).toBe("1");
     });
 
+    it('should return the sum of the numbers separated by commas', () => {
+        expect(add('1, 2')).toBe("3");
+    });
+
 });
