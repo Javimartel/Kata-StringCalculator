@@ -1,9 +1,17 @@
 export function add(numbers: string) {
     checkIfLasPositionIsASeparator(numbers);
-    checkIfSeparatorsAreTogethers(numbers)
-    const array = numbers.split(/[,\n]/);
+    checkIfSeparatorsAreTogethers(numbers);
+    let separator: RegExp|string = /[,\n]/
+    let array = []
+    let numbersToSum = numbers
+    if (numbers.startsWith("//")) {
+        array = numbersToSum.split(/[\n]/)
+        separator = array[0].replace("//", "")
+        numbersToSum = array[1]
+    } 
+    array = numbersToSum.split(separator);
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
-    return numbers === '' ? "0" : sum.toString();
+    return numbersToSum === '' ? "0" : sum.toString();
 }
 
 const checkIfSeparatorsAreTogethers = (numbers: string) => {
