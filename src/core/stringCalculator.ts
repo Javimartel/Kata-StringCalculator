@@ -1,7 +1,5 @@
 export function add(numbers: string) {
-    if (numbers.at(-1)?.match(/[,\n]/)) {
-        throw new Error("Number expected but EOF found.");
-    }
+    checkIfLasPositionIsASeparator(numbers);
     checkIfSeparatorsAreTogethers(numbers)
     const array = numbers.split(/[,\n]/);
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
@@ -16,4 +14,10 @@ const checkIfSeparatorsAreTogethers = (numbers: string) => {
             throw new Error(`Number expected but '${numbers[index + 1]}' found at position ${index + 1}.`);
         }
     });
+}
+
+const checkIfLasPositionIsASeparator = (numbers: string) => {
+    if (numbers.at(-1)?.match(/[,\n]/)) {
+        throw new Error("Number expected but EOF found.");
+    }
 }
