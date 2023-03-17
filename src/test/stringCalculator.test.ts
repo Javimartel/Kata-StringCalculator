@@ -5,4 +5,8 @@ describe('stringCalculator Tests', () => {
         expect(add('')).toBe("0");
     });
 
+    it('should return the same number if the string only has one number', () => {
+        expect(add('1')).toBe("1");
+    });
+
 });
