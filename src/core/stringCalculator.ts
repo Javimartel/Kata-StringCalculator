@@ -1,4 +1,7 @@
 export function add(numbers: string) {
+    if (numbers.at(-1)?.match(/[,\n]/)) {
+        throw new Error("Number expected but EOF found.");
+    }
     checkIfSeparatorsAreTogethers(numbers)
     const array = numbers.split(/[,\n]/);
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
