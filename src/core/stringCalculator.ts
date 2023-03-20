@@ -4,6 +4,9 @@ export function add(numbers: string) {
     const [numbersToSum, separator] = extractNumbersAndSeparator(numbers);
     const numbersToString = numbersToSum as string;
     const array = numbersToString.split(separator);
+    if (parseFloat(array[0]) < 0) {
+        throw new Error(`Negative not allowed : ${array[0]}`);
+    }
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
     return numbersToSum === '' ? "0" : sum.toString();
 }
