@@ -32,11 +32,16 @@ const extractNumbersAndSeparator = (numbers: string) => {
         array = numbersToSum.split(/[\n]/)
         separator = array[0].replace("//", "")
         numbersToSum = array[1]
-        numbersToSum.split("").forEach((char, index) => {
-            if (char !== separator && isNaN(parseFloat(char))) {
-                throw new Error(`'${separator}' expected but '${char}' found at position ${index}.`);
-            }
-        });
+        checkIfThereAreMoreThanOneSeparator(numbersToSum, separator)
     }
     return [numbersToSum, separator];
+}
+
+const checkIfThereAreMoreThanOneSeparator = (numbersToSum: string, separator: RegExp | string) => {
+    const haveMoreThanOneSeparator = numbersToSum.split("")
+        .find(char => char !== separator && isNaN(parseFloat(char)))
+    if (haveMoreThanOneSeparator) {
+        const differentSeparatorPos = numbersToSum.indexOf(haveMoreThanOneSeparator)
+        throw new Error(`'${separator}' expected but '${haveMoreThanOneSeparator}' found at position ${differentSeparatorPos}.`)
+    }
 }
