@@ -34,6 +34,6 @@ describe('stringCalculator Tests', () => {
     });
 
     it('should return error message if there are more than one separator custom', () => {
-        expect(add('//|\n1|2,3')).toThrow("'|' expected but ',' found at position 3.");
+        expect(() => add('//|\n1|2,3')).toThrow("'|' expected but ',' found at position 3.");
     });
 });

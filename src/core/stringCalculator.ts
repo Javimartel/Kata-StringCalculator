@@ -32,6 +32,11 @@ const extractNumbersAndSeparator = (numbers: string) => {
         array = numbersToSum.split(/[\n]/)
         separator = array[0].replace("//", "")
         numbersToSum = array[1]
+        numbersToSum.split("").forEach((char, index) => {
+            if (char !== separator && isNaN(parseFloat(char))) {
+                throw new Error(`'${separator}' expected but '${char}' found at position ${index}.`);
+            }
+        });
     }
     return [numbersToSum, separator];
 }
