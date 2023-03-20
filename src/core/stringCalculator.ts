@@ -4,11 +4,7 @@ export function add(numbers: string) {
     const [numbersToSum, separator] = extractNumbersAndSeparator(numbers);
     const numbersToString = numbersToSum as string;
     const array = numbersToString.split(separator);
-    const negativeNumbers = array.filter(number => parseFloat(number) < 0);
-    if (negativeNumbers.length > 0) {
-        const negativeNumbersJoined = negativeNumbers.join(", ");
-        throw new Error(`Negative not allowed : ${negativeNumbersJoined}`);
-    }
+    checkNegativeNumbers(array)
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
     return numbersToSum === '' ? "0" : sum.toString();
 }
@@ -48,5 +44,13 @@ const checkIfThereAreMoreThanOneSeparator = (numbersToSum: string, separator: Re
     if (haveMoreThanOneSeparator) {
         const differentSeparatorPos = numbersToSum.indexOf(haveMoreThanOneSeparator)
         throw new Error(`'${separator}' expected but '${haveMoreThanOneSeparator}' found at position ${differentSeparatorPos}.`)
+    }
+}
+
+const checkNegativeNumbers = (array: string[]) => {
+    const negativeNumbers = array.filter(number => parseFloat(number) < 0);
+    if (negativeNumbers.length > 0) {
+        const negativeNumbersJoined = negativeNumbers.join(", ");
+        throw new Error(`Negative not allowed : ${negativeNumbersJoined}`);
     }
 }
