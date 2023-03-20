@@ -2,17 +2,7 @@ export function add(numbers: string) {
     const [numbersToSum, separator, errorMoreThanOneSeparator] = extractNumbersAndSeparator(numbers);
     const numbersToString = numbersToSum as string;
     const array = numbersToString.split(separator);
-    let errors = "";
-
-    errors += checkNegativeNumbers(array);
-    errors += checkIfLasPositionIsASeparator(numbers);
-    errors += checkIfSeparatorsAreTogethers(numbers);
-    errors += errorMoreThanOneSeparator;
-
-    if (errors !== "") {
-        throw new Error(errors); 
-    }
-
+    checkAllErrors(array, numbersToString, errorMoreThanOneSeparator as string);
     const sum = array.reduce((accumulator, currentNumber) => accumulator + parseFloat(currentNumber), 0)
     return numbersToSum === '' ? "0" : sum.toString();
 }
@@ -70,4 +60,17 @@ const checkNegativeNumbers = (array: string[]) => {
         error += `Negative not allowed : ${negativeNumbersJoined}\n`;
     }
     return error;
+}
+
+const checkAllErrors = (array: string[], numbers: string, errorSeparator: string) => {
+    let errors = "";
+
+    errors += checkNegativeNumbers(array);
+    errors += checkIfLasPositionIsASeparator(numbers);
+    errors += checkIfSeparatorsAreTogethers(numbers);
+    errors += errorSeparator;
+
+    if (errors !== "") {
+        throw new Error(errors); 
+    }
 }
