@@ -20,4 +20,8 @@ describe('stringCalculator Tests', () => {
     it('should return the sum of the numbers separated by commas and newlines', () => {
         expect(add('1\n2, 3')).toBe("6");
     });
+
+    it('should return error message if separators are next to each other', () => {
+        expect(() => add("175.2,\n35")).toThrow("Number expected but '\n' found at position 6.");
+    });
 });
