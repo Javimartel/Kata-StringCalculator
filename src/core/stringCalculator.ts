@@ -1,5 +1,5 @@
 export function add(numbers: string) {
-    const numbersSplitted = numbers.split(',');
+    const numbersSplitted = numbers.split(/[,\n]/);
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
