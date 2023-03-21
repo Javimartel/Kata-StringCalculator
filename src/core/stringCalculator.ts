@@ -1,11 +1,11 @@
 export function add(numbers: string) {
-    const numbersArray = numbers.split(',');
-    const sumNumbers = sumNumbersFromArray(numbersArray);
-    return numbers !== '' ? sumNumbers.toString() : "0";
+    const numbersSplitted = numbers.split(',');
+    const summedNumbers = sumNumbersFrom(numbersSplitted);
+    return numbers !== '' ? summedNumbers.toString() : "0";
 }
 
-const sumNumbersFromArray = (numbersArray: string[]) => {
-    return numbersArray.reduce((accumulator, currentNumber) => {
+const sumNumbersFrom = (numbersSplitted: string[]) => {
+    return numbersSplitted.reduce((accumulator, currentNumber) => {
         return accumulator + parseFloat(currentNumber);
     }, 0);
 }
