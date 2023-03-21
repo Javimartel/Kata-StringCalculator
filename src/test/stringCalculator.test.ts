@@ -8,4 +8,8 @@ describe('stringCalculator Tests', () => {
     it('should return "1" when string is "1"', () => {
         expect(add('1')).toBe("1");
     });
+
+    it('should return the sum of multiple numbers', () => {
+        expect(add('1, 2')).toBe("3");
+    });
 });
