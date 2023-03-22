@@ -1,7 +1,12 @@
 export function add(numbers: string) {
     checkIfSeparatorsAreTogetherFrom(numbers);
     checkIfLastCharacterIsSeparatorFrom(numbers);
-    const numbersSplitted = numbers.split(/[,\n]/);
+    let numbersSplitted =  [];
+    if (numbers.startsWith('//')) {
+        numbersSplitted = extractNumbersAndCustomSeparatorFrom(numbers);
+    } else {
+        numbersSplitted = numbers.split(/[,\n]/);
+    }
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
@@ -26,4 +31,12 @@ const checkIfLastCharacterIsSeparatorFrom = (numbers: string) => {
     if (numbers.at(-1)?.match(/[,\n]/)) {
         throw new Error("Number expected but EOF found.");
     }
+}
+
+const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
+    const separatorIndex = numbers.indexOf('\n');
+    const separator = new RegExp(numbers.substring(2, separatorIndex));
+    const numbersToSplit = numbers.substring(separatorIndex + 1);
+    const numbersSplitted = numbersToSplit.split(separator);
+    return numbersSplitted;
 }
