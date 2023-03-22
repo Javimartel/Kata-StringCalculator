@@ -28,4 +28,8 @@ describe('stringCalculator Tests', () => {
     it('should return error message if a number is missing in last position', () => {
         expect(() => add("1,3,")).toThrow("Number expected but EOF found.");
     });
+
+    it('should_return_the_sum_of_the_numbers_with_custom_separators', () => {
+        expect(add('//;\n1;2')).toBe("3");
+    });
 });
