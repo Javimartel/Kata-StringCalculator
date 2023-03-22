@@ -1,12 +1,10 @@
 export function add(numbers: string) {
     checkIfSeparatorsAreTogetherFrom(numbers);
     checkIfLastCharacterIsSeparatorFrom(numbers);
-    let numbersSplitted =  [];
-    if (numbers.startsWith('//')) {
-        numbersSplitted = extractNumbersAndCustomSeparatorFrom(numbers);
-    } else {
-        numbersSplitted = numbers.split(/[,\n]/);
-    }
+    const startWithDelimiter = numbers.startsWith('//');
+    const numbersSplitted = startWithDelimiter ? 
+        extractNumbersAndCustomSeparatorFrom(numbers) : 
+        numbers.split(/[,\n]/);
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
@@ -35,7 +33,7 @@ const checkIfLastCharacterIsSeparatorFrom = (numbers: string) => {
 
 const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
     const separatorIndex = numbers.indexOf('\n');
-    const separator = new RegExp(numbers.substring(2, separatorIndex));
+    const separator = numbers.substring(2, separatorIndex);
     const numbersToSplit = numbers.substring(separatorIndex + 1);
     const numbersSplitted = numbersToSplit.split(separator);
     return numbersSplitted;
