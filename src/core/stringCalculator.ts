@@ -11,7 +11,7 @@ export function add(numbers: string) {
 
 const sumNumbersFrom = (numbersSplitted: string[]) => {
     return numbersSplitted.reduce((accumulator, currentNumber) => {
-        return accumulator + parseFloat(currentNumber);
+        return accumulator + Number(currentNumber);
     }, 0);
 }
 
@@ -43,7 +43,7 @@ const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
 const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: string) => {
     numbersToSplit.split('').forEach((character, index) => {
         const isAnotherSeparator = character !== separator;
-        const isNotNumeric = isNaN(parseFloat(character));
+        const isNotNumeric = isNaN(Number(character));
         if (isAnotherSeparator && isNotNumeric) {
             throw new Error(`'${separator}' expected but '${character}' found at position ${index}.`);
         }
