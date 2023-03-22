@@ -35,11 +35,15 @@ const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
     const separatorIndex = numbers.indexOf('\n');
     const separator = numbers.substring(2, separatorIndex);
     const numbersToSplit = numbers.substring(separatorIndex + 1);
+    checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator);
+    const numbersSplitted = numbersToSplit.split(separator);
+    return numbersSplitted;
+}
+
+const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: string) => {
     numbersToSplit.split('').forEach((character, index) => {
         if (character !== separator && isNaN(parseFloat(character))) {
             throw new Error(`'${separator}' expected but '${character}' found at position ${index}.`);
         }
     });
-    const numbersSplitted = numbersToSplit.split(separator);
-    return numbersSplitted;
 }
