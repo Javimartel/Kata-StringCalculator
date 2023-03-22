@@ -42,7 +42,9 @@ const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
 
 const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: string) => {
     numbersToSplit.split('').forEach((character, index) => {
-        if (character !== separator && isNaN(parseFloat(character))) {
+        const isAnotherSeparator = character !== separator;
+        const isNotNumeric = isNaN(parseFloat(character))
+        if (isAnotherSeparator && isNotNumeric) {
             throw new Error(`'${separator}' expected but '${character}' found at position ${index}.`);
         }
     });
