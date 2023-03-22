@@ -29,7 +29,11 @@ describe('stringCalculator Tests', () => {
         expect(() => add("1,3,")).toThrow("Number expected but EOF found.");
     });
 
-    it('should_return_the_sum_of_the_numbers_with_custom_separators', () => {
+    it('should return the sum of the numbers with custom separators', () => {
         expect(add('//;\n1;2')).toBe("3");
+    });
+
+    it('should return error message if there are more than one separator custom', () => {
+        expect(() => add('//|\n1|2,3')).toThrow("'|' expected but ',' found at position 3.");
     });
 });
