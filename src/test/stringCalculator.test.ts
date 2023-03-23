@@ -40,4 +40,8 @@ describe('stringCalculator Tests', () => {
     it('should return error message if there is a negative number', () => {
         expect(() => add('-1,2')).toThrow("Negative not allowed : -1");
     });
+
+    it('should return error message if there are negative numbers', () => {
+        expect(() => add('2,-4,-5')).toThrow("Negative not allowed : -4, -5");
+    });
 });
