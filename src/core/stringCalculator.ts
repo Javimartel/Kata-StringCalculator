@@ -52,8 +52,8 @@ const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separat
 }
 
 const checkIfThereAreNegativeNumbersFrom = (numbersSplitted: string[]) => {
-    const negativeNumbers = numbersSplitted.find(number => Number(number) < 0);
-    if (negativeNumbers) {
-        throw new Error(`Negative not allowed : ${negativeNumbers}`);
+    const negativeNumbers = numbersSplitted.filter(number => Number(number) < 0);
+    if (negativeNumbers.length > 0) {
+        throw new Error(`Negative not allowed : ${negativeNumbers.join(', ')}`);
     }
 }
