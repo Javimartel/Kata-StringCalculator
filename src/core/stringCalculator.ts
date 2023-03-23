@@ -5,10 +5,7 @@ export function add(numbers: string) {
     const numbersSplitted = startWithDelimiter ? 
         extractNumbersAndCustomSeparatorFrom(numbers) : 
         numbers.split(/[,\n]/);
-    const negativeNumbers = numbersSplitted.find(number => Number(number) < 0);
-    if (negativeNumbers) {
-        throw new Error(`Negative not allowed : ${negativeNumbers}`);
-    }
+    checkIfThereAreNegativeNumbersFrom(numbersSplitted);
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
@@ -52,4 +49,11 @@ const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separat
             throw new Error(`'${separator}' expected but '${character}' found at position ${index}.`);
         }
     });
+}
+
+const checkIfThereAreNegativeNumbersFrom = (numbersSplitted: string[]) => {
+    const negativeNumbers = numbersSplitted.find(number => Number(number) < 0);
+    if (negativeNumbers) {
+        throw new Error(`Negative not allowed : ${negativeNumbers}`);
+    }
 }
