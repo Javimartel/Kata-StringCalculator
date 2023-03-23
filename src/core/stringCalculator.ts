@@ -5,6 +5,10 @@ export function add(numbers: string) {
     const numbersSplitted = startWithDelimiter ? 
         extractNumbersAndCustomSeparatorFrom(numbers) : 
         numbers.split(/[,\n]/);
+    const negativeNumbers = numbersSplitted.find(number => Number(number) < 0);
+    if (negativeNumbers) {
+        throw new Error(`Negative not allowed : ${negativeNumbers}`);
+    }
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
