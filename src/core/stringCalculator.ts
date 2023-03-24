@@ -4,7 +4,7 @@ export function add(numbers: string) {
     const separator = extractSeparatorFrom(numbers);
     const numbersToSplit = extractNumbersFrom(numbers);
     numbersSplitted = numbersToSplit.split(separator);
-    checkAllErrors(numbers, numbersToSplit, separator as string, numbersSplitted)
+    checkAllErrorsFrom(numbers, numbersToSplit, separator as string, numbersSplitted)
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
@@ -78,7 +78,7 @@ const checkIfThereAreNegativeNumbersFrom = (numbersSplitted: string[]) => {
 }
 
 
-const checkAllErrors = (numbers: string, numbersToSplit: string, separator: string, numbersSplitted: string[]) => {
+const checkAllErrorsFrom = (numbers: string, numbersToSplit: string, separator: string, numbersSplitted: string[]) => {
     let errors = "";
     errors += checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator as string);
     errors += checkIfThereAreNegativeNumbersFrom(numbersSplitted);
