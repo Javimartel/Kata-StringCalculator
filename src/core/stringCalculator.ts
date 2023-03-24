@@ -1,15 +1,10 @@
 export function add(numbers: string) {
     let errors = "";
     let numbersSplitted = [];
-    const startWithDelimiter = numbers.startsWith('//');
-    if (startWithDelimiter) {
-        const separator = extractSeparatorFrom(numbers);
-        const numbersToSplit = extractNumbersFrom(numbers);
-        errors += checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator);
-        numbersSplitted = numbersToSplit.split(separator);
-    } else {
-        numbersSplitted = numbers.split(/[,\n]/);
-    }
+    const separator = extractSeparatorFrom(numbers);
+    const numbersToSplit = extractNumbersFrom(numbers);
+    numbersSplitted = numbersToSplit.split(separator);
+    errors += checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator as string);
     errors += checkIfThereAreNegativeNumbersFrom(numbersSplitted);
     errors += checkIfSeparatorsAreTogetherFrom(numbers);
     errors += checkIfLastCharacterIsSeparatorFrom(numbers);
@@ -47,26 +42,35 @@ const checkIfLastCharacterIsSeparatorFrom = (numbers: string) => {
 }
 
 const extractSeparatorFrom = (numbers: string) => {
-    const separatorIndex = numbers.indexOf('\n');
-    const separator = numbers.substring(2, separatorIndex);
+    let separator: RegExp|string = /[,\n]/;
+    const startWithDelimiter = numbers.startsWith('//');
+    if (startWithDelimiter) {
+        const separatorIndex = numbers.indexOf('\n');
+        separator = numbers.substring(2, separatorIndex);
+    }
     return separator;
 }
 
 const extractNumbersFrom = (numbers: string) => {
-    const separatorIndex = numbers.indexOf('\n');
-    const numbersToSplit = numbers.substring(separatorIndex + 1);
-    return numbersToSplit;
+    const startWithDelimiter = numbers.startsWith('//');
+    if (startWithDelimiter) {
+        const separatorIndex = numbers.indexOf('\n');
+        return numbers.substring(separatorIndex + 1);
+    }
+    return numbers;
 }
 
-const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: string) => {
+const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: RegExp|string) => {
     let error = "";
-    numbersToSplit.split('').forEach((character, index) => {
-        const isAnotherSeparator = character !== separator;
-        const isNotNumeric = isNaN(Number(character));
-        if (isAnotherSeparator && isNotNumeric) {
-            error += `'${separator}' expected but '${character}' found at position ${index}.\n`;
-        }
-    });
+    if (typeof separator === "string") {
+        numbersToSplit.split('').forEach((character, index) => {
+            const isAnotherSeparator = character !== separator;
+            const isNotNumeric = isNaN(Number(character));
+            if (isAnotherSeparator && isNotNumeric) {
+                error += `'${separator}' expected but '${character}' found at position ${index}.\n`;
+            }
+        });
+    }
     return error;
 }
 
