@@ -1,11 +1,21 @@
 export function add(numbers: string) {
-    checkIfSeparatorsAreTogetherFrom(numbers);
-    checkIfLastCharacterIsSeparatorFrom(numbers);
+    let errors = "";
+    let numbersSplitted = [];
     const startWithDelimiter = numbers.startsWith('//');
-    const numbersSplitted = startWithDelimiter ? 
-        extractNumbersAndCustomSeparatorFrom(numbers) : 
-        numbers.split(/[,\n]/);
-    checkIfThereAreNegativeNumbersFrom(numbersSplitted);
+    if (startWithDelimiter) {
+        const separator = extractSeparatorFrom(numbers);
+        const numbersToSplit = extractNumbersFrom(numbers);
+        errors += checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator);
+        numbersSplitted = numbersToSplit.split(separator);
+    } else {
+        numbersSplitted = numbers.split(/[,\n]/);
+    }
+    errors += checkIfThereAreNegativeNumbersFrom(numbersSplitted);
+    errors += checkIfSeparatorsAreTogetherFrom(numbers);
+    errors += checkIfLastCharacterIsSeparatorFrom(numbers);
+    if (errors) {
+        throw new Error(errors);
+    }
     const summedNumbers = sumNumbersFrom(numbersSplitted);
     return numbers !== '' ? summedNumbers.toString() : "0";
 }
@@ -17,43 +27,54 @@ const sumNumbersFrom = (numbersSplitted: string[]) => {
 }
 
 const checkIfSeparatorsAreTogetherFrom = (numbers: string) => {
+    let error = "";
     numbers.split('').forEach((character, index) => {
         const currentCharacter = character.match(/[,\n]/);
         const nextCharacter = numbers[index + 1]?.match(/[,\n]/);
         if (currentCharacter && nextCharacter) {
-            throw new Error(`Number expected but '${nextCharacter}' found at position ${index + 1}.`);
+            error += `Number expected but '${nextCharacter}' found at position ${index + 1}.`;
         }
     });
+    return error;
 }
 
 const checkIfLastCharacterIsSeparatorFrom = (numbers: string) => {
+    let error = "";
     if (numbers.at(-1)?.match(/[,\n]/)) {
-        throw new Error("Number expected but EOF found.");
+        error += "Number expected but EOF found.\n";
     }
+    return error;
 }
 
-const extractNumbersAndCustomSeparatorFrom = (numbers: string) => {
+const extractSeparatorFrom = (numbers: string) => {
     const separatorIndex = numbers.indexOf('\n');
     const separator = numbers.substring(2, separatorIndex);
+    return separator;
+}
+
+const extractNumbersFrom = (numbers: string) => {
+    const separatorIndex = numbers.indexOf('\n');
     const numbersToSplit = numbers.substring(separatorIndex + 1);
-    checkIfThereAreMoreThanOneSeparatorFrom(numbersToSplit, separator);
-    const numbersSplitted = numbersToSplit.split(separator);
-    return numbersSplitted;
+    return numbersToSplit;
 }
 
 const checkIfThereAreMoreThanOneSeparatorFrom = (numbersToSplit: string, separator: string) => {
+    let error = "";
     numbersToSplit.split('').forEach((character, index) => {
         const isAnotherSeparator = character !== separator;
         const isNotNumeric = isNaN(Number(character));
         if (isAnotherSeparator && isNotNumeric) {
-            throw new Error(`'${separator}' expected but '${character}' found at position ${index}.`);
+            error += `'${separator}' expected but '${character}' found at position ${index}.\n`;
         }
     });
+    return error;
 }
 
 const checkIfThereAreNegativeNumbersFrom = (numbersSplitted: string[]) => {
+    let error = "";
     const negativeNumbers = numbersSplitted.filter(number => Number(number) < 0);
     if (negativeNumbers.length > 0) {
-        throw new Error(`Negative not allowed : ${negativeNumbers.join(', ')}`);
+        error += `Negative not allowed : ${negativeNumbers.join(', ')}\n`;
     }
+    return error;
 }
